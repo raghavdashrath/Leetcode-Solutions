@@ -1,0 +1,15 @@
+class Solution {
+public:
+    vector<int> maxKDistinct(vector<int>& nums, int k) {
+        vector<int> ans;
+        int n=nums.size();
+        sort(nums.begin(),nums.end(),greater<int>());
+        // ans.push_back(nums[0]);
+        for(int i=0;i<n;i++){
+            if(ans.size()==k) return ans;
+            if(i>0 && nums[i]==nums[i-1]) continue;
+            ans.push_back(nums[i]);
+        }
+        return ans;
+    }
+};

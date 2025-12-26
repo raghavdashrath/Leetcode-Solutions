@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int minimumArea(vector<vector<int>>& mat){
+    int top = INT_MAX;
+    int bottom = INT_MIN;
+    int right = INT_MIN;
+    int left = INT_MAX;
+    int row = mat.size();
+    int column = mat[0].size();
+    for(int i=0;i<row;i++){
+        for(int j=0;j<column;j++){
+            if(mat[i][j]==1){
+                top = min(top,i);
+                bottom = max(bottom,i);
+                left = min(left,j);
+                right = max(right,j);
+            }
+        }
+    }
+    if(top==INT_MAX) return 0;
+    return (bottom-top+1)*(right-left+1);
+    }
+};

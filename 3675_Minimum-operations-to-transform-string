@@ -1,0 +1,11 @@
+class Solution {
+public:
+    int minOperations(string s) {
+        int ans = 0;
+        for (char c : s) {
+            int d = ('z' - c + 1) % 26;
+            if (d > ans) ans = d;
+        }
+        return ans;
+    }
+};

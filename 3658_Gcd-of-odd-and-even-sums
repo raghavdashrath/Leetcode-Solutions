@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int gcdOfOddEvenSums(int n) {
+        int evensum=0,oddsum=0;
+        for(int i=0;i<=n*2;i++){
+            if(i%2==0) evensum+=i;
+            else oddsum+=i;
+        }
+        int gcd=1;
+        for(int j=1;j<evensum+oddsum;j++){
+            if(evensum%j==0 && oddsum%j==0){
+                gcd=max(gcd,j);
+            }
+        }
+        return gcd;
+    }
+};

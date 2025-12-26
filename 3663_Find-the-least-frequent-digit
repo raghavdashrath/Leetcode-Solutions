@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int getLeastFrequentDigit(int n) {
+        string s = to_string(n);
+        vector<int> freq(10, 0);
+
+        for (char c : s) {
+            freq[c - '0']++;
+        }
+
+        int minFreq = INT_MAX;
+        int ans = 0;
+
+        for (int d = 0; d <= 9; d++) {
+            if (freq[d] > 0) {
+                if (freq[d] < minFreq) {
+                    minFreq = freq[d];
+                    ans = d;
+                }
+            }
+        }
+        return ans;
+    }
+};

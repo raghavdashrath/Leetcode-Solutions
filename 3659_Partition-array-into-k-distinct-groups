@@ -1,0 +1,23 @@
+class Solution {
+public:
+    bool partitionArray(vector<int>& nums, int k) {
+        int n=nums.size();
+        if(n%k!=0) return false;
+        int group = n/k;
+        map<int,int> mpp;
+        for (int i = 0; i < n; i++) {
+            mpp[nums[i]]++;
+        }
+
+        int distinct = 0;
+        for (auto it = mpp.begin(); it != mpp.end(); it++) {
+            distinct++;
+        }
+        if (distinct < k) return false;
+        for (auto it = mpp.begin(); it != mpp.end(); it++) {
+            if (it->second > group) return false;
+        }
+
+        return true;
+    }
+};
