@@ -1,0 +1,74 @@
+class Solution {
+public:
+    int trapRainWater(vector<vector<int>>& heightMap) {
+        int m = heightMap.size();
+        if (m == 0) return 0;
+        int n = heightMap[0].size();
+        if (n == 0) return 0;
+        vector<vector<int>> l(m, vector<int>(n));
+        vector<vector<int>> u(m, vector<int>(n));
+        vector<vector<int>> r(m, vector<int>(n));
+        vector<vector<int>> d(m, vector<int>(n));
+        for(int i = 0; i < m; i++){
+            l[i][0] = heightMap[i][0];   
+            for(int j = 1; j < n; j++){
+                l[i][j] = max(l[i][j-1], heightMap[i][j]);
+            }
+        }
+
+        for(int j = 0; j < n; j++){
+            u[0][j] = heightMap[0][j];  
+            for(int i = 1; i < m; i++){
+                u[i][j] = max(u[i-1][j], heightMap[i][j]);
+            }
+        }
+
+        for(int i = 0; i < m; i++){
+            r[i][n-1] = heightMap[i][n-1];
+            for(int j = n-2; j >= 0; j--){
+                r[i][j] = max(r[i][j+1], heightMap[i][j]);
+            }
+        }
+        
+        for(int j = 0; j < n; j++){
+            d[m-1][j] = heightMap[m-1][j];  
+            for(int i = m-2; i >= 0; i--){
+                d[i][j] = max(d[i+1][j], heightMap[i][j]);
+            }
+        }
+
+        vector<vector<int>> W(m, vector<int>(n));
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                int min_h = min(l[i][j], r[i][j]);
+                int min_v = min(u[i][j], d[i][j]);
+                W[i][j] = min(min_h, min_v);              
+            }
+        }
+        
+        bool changed = true;
+        
+        while (changed) {
+            changed = false;
+            for (int i = 1; i < m - 1; ++i) {
+                for (int j = 1; j < n - 1; ++j) {
+                    int min_neighbor_W = min({W[i - 1][j], W[i + 1][j], W[i][j - 1], W[i][j + 1]});
+                    int new_W = min(W[i][j], min_neighbor_W);
+                    new_W = max(new_W, heightMap[i][j]);
+                    if (new_W < W[i][j]) {
+                        W[i][j] = new_W;
+                        changed = true; 
+                    }
+                }
+            }
+        }
+        
+        int totalWater = 0;
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                totalWater += (W[i][j] - heightMap[i][j]);
+            }
+        }
+        return totalWater;
+    }
+};
